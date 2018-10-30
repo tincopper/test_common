@@ -8,7 +8,9 @@ import com.lowagie.text.rtf.RtfWriter2;
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.Rectangle;
+import java.awt.datatransfer.StringSelection;
 import java.awt.event.InputEvent;
+import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.*;
 
@@ -27,10 +29,10 @@ public class AutoCheckRobot {
         Document document = new Document(PageSize.A4);
 
         if (args.length < 1) {
-            throw new IllegalArgumentException("未添加输入参数...");
+            throw new IllegalArgumentException("未输入command文件...");
         }
         String commandPath = args[0];
-        FileReader fr=new FileReader(commandPath);
+        FileReader fr = new FileReader(commandPath);
         BufferedReader br = new BufferedReader(fr);
         String line;
         while ((line = br.readLine()) != null) {
@@ -84,23 +86,51 @@ public class AutoCheckRobot {
                 writeImage(document, split[1] + ".png");
             }
 
-            try {
-                Thread.sleep(500);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+            if ("closewindow".equalsIgnoreCase(first)) {
+                closeWindow(robot);
             }
+
+            if ("ctrlv".equalsIgnoreCase(first)) {
+                ctrlV(robot, split[1]);
+            }
+
+            if ("enter".equalsIgnoreCase(first)) {
+                enter(robot);
+            }
+
+            if ("tab".equalsIgnoreCase(first)) {
+                pressKey(robot, KeyEvent.VK_TAB);
+            }
+
+            robot.delay(100);
         }
 
+        br.close();
+        fr.close();
         document.close();
-
     }
 
-    private static void writeImage(Document document, String imagePath) throws IOException, DocumentException {
-        Image img = Image.getInstance(imagePath);
-        img.setAbsolutePosition(0, 0);
-        img.setAlignment(Image.LEFT);// 设置图片显示位置
-        img.scaleAbsolute(500, 300);// 直接设定显示尺寸
-        document.add(img);
+    private static void enter(Robot robot) {
+        robot.keyPress(KeyEvent.VK_ENTER);
+        robot.delay(100);
+        robot.keyRelease(KeyEvent.VK_ENTER);
+    }
+
+    private static void writeImage(Document document, String imagePath) {
+        try {
+            Image img = Image.getInstance(imagePath);
+            img.setAbsolutePosition(0, 0);
+            img.setAlignment(Image.LEFT);// 设置图片显示位置
+            img.scaleAbsolute(500, 300);// 直接设定显示尺寸
+            document.add(img);
+        } catch (BadElementException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (DocumentException e) {
+            e.printStackTrace();
+        }
+
     }
 
     public static void move(Robot robot, int x, int y) {
@@ -108,18 +138,22 @@ public class AutoCheckRobot {
     }
 
     public static void leftClick(Robot robot) {
-        //点击鼠标
-        //鼠标左键
-        System.out.println("单击");
         robot.mousePress(InputEvent.BUTTON1_MASK);
         robot.mouseRelease(InputEvent.BUTTON1_MASK);
     }
 
     public static void rightClick(Robot robot) {
         //鼠标右键
-        System.out.println("右击");
         robot.mousePress(InputEvent.BUTTON3_MASK);
         robot.mouseRelease(InputEvent.BUTTON3_MASK);
+    }
+
+    public static void closeWindow(Robot robot) {
+        robot.keyPress(KeyEvent.VK_CONTROL);
+        robot.keyPress(KeyEvent.VK_W);
+
+        robot.keyRelease(KeyEvent.VK_CONTROL);
+        robot.keyRelease(KeyEvent.VK_W);
 
     }
 
@@ -133,6 +167,7 @@ public class AutoCheckRobot {
 
     public static void pressKey(Robot robot, int keyCode) {
         robot.keyPress(keyCode);
+        robot.delay(100);
         robot.keyRelease(keyCode);
     }
 
@@ -192,4 +227,19 @@ public class AutoCheckRobot {
         context.setFirstLineIndent(20);
         document.add(context);
     }
+
+    public static void ctrlV(Robot robot, String content) {
+        //声明一个StingSelection 对象，并使用String的参数完成实例化；
+        StringSelection stringSelection = new StringSelection(content);
+        //使用Toolkit对象的setContents将字符串放到粘贴板中 ；
+        Toolkit.getDefaultToolkit().getSystemClipboard().setContents(stringSelection, null);
+
+        //按下crtl v键 ；
+        robot.keyPress(KeyEvent.VK_CONTROL);
+        robot.keyPress(KeyEvent.VK_V);
+        //释放crtl v 键
+        robot.keyRelease(KeyEvent.VK_V);
+        robot.keyRelease(KeyEvent.VK_CONTROL);
+    }
+
 }
