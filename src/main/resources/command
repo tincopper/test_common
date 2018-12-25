@@ -1,0 +1,254 @@
+writehead D://RabbitMq巡检结果@20181030AM.doc RabbitMq巡检结果
+# 打开猫头鹰
+mv 1720 1060
+leftclick
+sleep 1
+
+mv 1720 900
+leftclick
+sleep 1
+
+# 查看小米监控cpu
+mv 26 384
+leftclick
+
+mv 45 574
+leftclick
+
+mv 100 636
+leftclick
+sleep 1
+
+mv 464 200
+leftclick
+sleep 1
+
+mv 500 235
+leftclick
+sleep 1
+
+mv 600 360
+leftclick
+sleep 1
+
+mouseWheel	5
+
+mv 1044 777
+leftclick
+sleep 1
+
+mv 970 860
+leftclick
+sleep 1
+
+capture cpu 17 114 1907 860
+writestr cpu使用率
+writeimage cpu
+
+closewindow
+
+# 查看小米监控内存
+mv 504 240
+leftclick
+
+mv 590 485
+leftclick
+
+mv 1845 307
+leftclick
+
+mv 1777 390
+leftclick
+
+capture mem 17 114 1907 860
+writestr 内存使用率
+writeimage mem
+
+closewindow
+
+# 查看小米监控磁盘空闲率
+mv 504 240
+leftclick
+
+mv 590 392
+leftclick
+
+capture disk 310 290 1894 500
+writestr 磁盘空闲率
+writeimage disk
+
+# 查看小米监控负载情况
+mv 504 240
+leftclick
+
+mv 590 453
+leftclick
+
+capture load 310 290 1890 735
+writestr 负载情况
+writeimage load
+
+# 查看小米监控磁盘IO使用率
+mv 504 240
+leftclick
+
+mv 590 422
+leftclick
+sleep 1
+
+mouseWheel	7
+sleep 1
+
+mv 1044 777
+leftclick
+
+mv 970 860
+leftclick
+sleep 1
+
+capture io 17 114 1907 860
+writestr 磁盘IO使用率
+writeimage io
+
+closewindow
+
+# 查看RabbitMQ集群情况
+writestr RabbitMQ集群情况
+# 查看科兴rabitmq状况
+# 移动到浏览器窗口
+mv 220 50
+leftclick
+
+ctrlv http://kx.rabbitmq.hqygou.com:15672
+enter
+sleep 1
+
+# 登录
+mv 905 190
+leftclick
+ctrlv monitor_user
+tab
+ctrlv 6DDj25Dt
+enter
+sleep 1
+
+# 截取
+capture kx 45 263 1036 710
+writestr 科兴机房集群节点状态
+writeimage kx
+
+# 查看sf rabitmq状况
+# 移动到浏览器窗口
+mv 220 50
+leftclick
+
+ctrlv http://169.46.54.130:15672
+enter
+sleep 1
+
+# 登录
+mv 905 190
+leftclick
+ctrlv monitor_user
+tab
+ctrlv 6DDj25Dt
+enter
+sleep 1
+
+# 截取
+capture sf 45 263 1036 710
+writestr sf机房集群节点状态
+writeimage sf
+
+# 查看aws rabitmq状况
+# 移动到浏览器窗口
+mv 220 50
+leftclick
+
+ctrlv http://amazon.rabbitmq.hqygou.com:15672
+enter
+sleep 1
+
+# 登录
+mv 905 190
+leftclick
+ctrlv monitor_user
+tab
+ctrlv 6DDj25Dt
+enter
+sleep 1
+
+# 截取
+capture aws 45 263 1036 710
+writestr aws机房集群节点状态
+writeimage aws
+
+closewindow
+
+# 查看rabbitmq写入数据
+writestr RabbitMQ写入量情况
+# 打开猫头鹰
+mv 1720 1060
+leftclick
+sleep 1
+
+mv 1720 780
+leftclick
+sleep 1
+
+# 查看kx emonitor
+mv 78 450
+leftclick
+
+mv 1446 360
+leftclick
+
+mv 656 200
+leftclick
+
+mv 617 288
+leftclick
+
+mv 657 265
+leftclick
+
+ctrlv kx
+
+mv 1400 390
+leftclick
+
+# 截取
+capture kx 520 510 1660 870
+writestr 科兴机房写入情况
+writeimage kx
+sleep 1
+
+mv 767 265
+leftclick
+
+ctrlv softlayer
+
+mv 1400 390
+leftclick
+
+# 截取
+capture softlayer 520 510 1660 870
+writestr softlayer机房写入情况
+writeimage softlayer
+sleep 1
+
+mv 767 265
+leftclick
+
+ctrlv us_aws
+
+mv 1400 390
+leftclick
+
+# 截取
+capture us_aws 520 510 1660 870
+writestr us_aws机房写入情况
+writeimage us_aws
+sleep 1
+
+closewindow

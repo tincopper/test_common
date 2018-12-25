@@ -25,7 +25,7 @@ public class TestQuartz {
         }
 
         String cronExpresiion = "0 0/10 * * * ?";
-        List<String> nextExecTime = getNextExecTime(cronExpresiion, 1);
+        List<String> nextExecTime = getNextExecTime(cronExpresiion, 3);
         for (String s : nextExecTime) {
             System.out.println("time:" + s);
         }

@@ -1,7 +1,6 @@
 package com.tomgs.test.zookeeper;
 
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.api.BackgroundCallback;
@@ -14,20 +13,13 @@ import org.junit.Assert;
 import org.junit.Test;
 
 /**
- * zk测试工具类
- *
+ * curator客户端测试类
  * @author tangzhongyuan
- * @date 2018年9月4日 上午11:34:56
- * @version
+ *
  */
-public class ZKUtil {
+public class TestCuratorfFrameWork {
 	
-	/** local */
-	//private final String connectString = "127.0.0.1:2181,127.0.0.1:2182,127.0.0.1:2183";
-	/** test */
-	//private final String connectString = "10.40.6.100:2181,10.40.6.101:2181,10.40.6.102:2181";
-	private final String connectString = "127.0.0.1:2181";
-	
+	private final String connectString = "127.0.0.1:2181,127.0.0.1:2182,127.0.0.1:2183";
 	private final CuratorClient client = new CuratorClient();
 	private final CuratorFramework curator = client.getCuratorFramework(connectString);
 	
@@ -54,7 +46,7 @@ public class ZKUtil {
                     System.out.println("Path：" + event.getPath());  
 				}
 			})
-			.forPath("/root/children1/1", "测试".getBytes());//需要创建的节点路径
+			.forPath("/root/children1", "测试".getBytes());//需要创建的节点路径
 		
 		Thread.sleep(3000);//休息3s方便看到回调
 		System.out.println(pathInfo);//pathInfo 如果第一次创建则返回创建的节点信息，如果已经创建则返回null
@@ -117,14 +109,8 @@ public class ZKUtil {
 		 * 
 		 * deletingChildrenIfNeeded() 方法表示如果存在子节点的话，同时删除子节点 
 		 */
-		String node = "/root/children1";
-		//curator.delete().guaranteed().deletingChildrenIfNeeded().inBackground(new CuratorDeleteBackgroundCallBack()).forPath(node);
-		curator.delete().deletingChildrenIfNeeded().inBackground(new CuratorDeleteBackgroundCallBack()).forPath(node);
-		
-		TimeUnit.SECONDS.sleep(3);
-		
+		curator.delete().guaranteed().deletingChildrenIfNeeded().inBackground(new CuratorDeleteBackgroundCallBack()).forPath("/root/children2");
 		//关闭连接
 		curator.close();
-		System.out.println("delete success ...");
 	}
 }

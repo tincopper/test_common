@@ -234,10 +234,10 @@ public class AutoCheckRobot {
         //使用Toolkit对象的setContents将字符串放到粘贴板中 ；
         Toolkit.getDefaultToolkit().getSystemClipboard().setContents(stringSelection, null);
 
-        //按下crtl v键 ；
+        //按下ctrl v键 ；
         robot.keyPress(KeyEvent.VK_CONTROL);
         robot.keyPress(KeyEvent.VK_V);
-        //释放crtl v 键
+        //释放ctrl v 键
         robot.keyRelease(KeyEvent.VK_V);
         robot.keyRelease(KeyEvent.VK_CONTROL);
     }

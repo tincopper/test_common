@@ -8,7 +8,6 @@ import org.apache.hadoop.util.Progressable;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import sun.plugin2.gluegen.runtime.CPU;
 
 import java.io.*;
 import java.net.URI;
@@ -147,7 +146,7 @@ public class HDFSUtilTest {
 
     /**
      * 下载HDFS文件1
-     *  注意：以上演示的第一种下载方式在windows操作系统上可能会报空指针错误，在windows上建议使用第二种方式
+     * 注意：以上演示的第一种下载方式在windows操作系统上可能会报空指针错误，在windows上建议使用第二种方式
      */
     @Test
     public void copyToLocalFile1() throws Exception {
@@ -158,7 +157,7 @@ public class HDFSUtilTest {
 
     /**
      * 下载HDFS文件2
-     *  注意：以上演示的第一种下载方式在windows操作系统上可能会报空指针错误，在windows上建议使用第二种方式
+     * 注意：以上演示的第一种下载方式在windows操作系统上可能会报空指针错误，在windows上建议使用第二种方式
      */
     @Test
     public void copyToLocalFile2() throws Exception {
@@ -173,20 +172,20 @@ public class HDFSUtilTest {
     public void setup() throws URISyntaxException, IOException, InterruptedException {
         configuration = new Configuration();
         //第一种方式：高可用方式core-site.xml
-        configuration.set("fs.defaultFS", "hdfs://elog");
+        /*configuration.set("fs.defaultFS", "hdfs://elog");
         configuration.set("dfs.nameservices", "elog");
         configuration.set("dfs.ha.namenodes.elog", "nn1,nn2");
         configuration.set("dfs.namenode.rpc-address.elog.nn1", "nn1.hadoop:9000");
         configuration.set("dfs.namenode.rpc-address.elog.nn2", "nn2.hadoop:9000");
         configuration.set("dfs.client.failover.proxy.provider.elog", "org.apache.hadoop.hdfs.server.namenode.ha.ConfiguredFailoverProxyProvider");
 
-        fileSystem = FileSystem.get(configuration);
+        fileSystem = FileSystem.get(configuration);*/
 
         // 第一参数是服务器的URI，第二个参数是配置对象，第三个参数是文件系统的用户名
         // HDFS文件系统服务器的地址以及端口
-        String HDFS_PATH = "hdfs://nn2.hadoop:9000";
-        //String HDFS_PATH = "hdfs://dwhdponline-master02.gw-ec.com:8020";
-        //fileSystem = FileSystem.get(new URI(HDFS_PATH), configuration, "hadoop");
+        //String HDFS_PATH = "hdfs://nn2.hadoop:9000";
+        String HDFS_PATH = "hdfs://dwhdponline-master02.gw-ec.com:8020";
+        fileSystem = FileSystem.get(new URI(HDFS_PATH), configuration, "bigdata");
         System.out.println("######## HDFSAPP.setUp");
     }
 
